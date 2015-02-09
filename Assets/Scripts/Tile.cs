@@ -11,9 +11,9 @@ public class Tile
 	//================
 	private float x;								// position X
 	private float y;								// position Y
-    private int id;
+   private int id;                        // Id of layer that tile belongs to
 	private GameObject sprite;					// prefab of sprite
-	private GameObject tileObject;				// instance of tile gameObject
+	private GameObject tileObject;		   // instance of tile gameObject
 	//===============
 	// CONSTRUCTOR
 	//===============

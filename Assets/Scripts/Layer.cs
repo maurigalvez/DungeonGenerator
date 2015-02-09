@@ -9,19 +9,19 @@ public class Layer
 	//=================
 	// VARIABLES
 	//=================
-    protected GameObject layer;
-    protected List<Tile> tiles = new List<Tile>();
-    protected int layerID;
-    protected float x;
-    protected float y;
-    protected float x2;
-    protected float y2;
-    protected int rows;
-    protected int columns;
-    protected float width;
-    protected float height;
-    protected float tWidth;
-    protected float tHeight;
+    protected GameObject layer;                                   // Instance of gameobject of this layer
+    protected List<Tile> tiles = new List<Tile>();                // List of tiles that form layer
+    protected int layerID;                                        // Layer ID - Depth of layer!
+    protected float x;                                            // Position X of layer - Left Edge
+    protected float y;                                            // Position Y of layer - Bottom Edge
+    protected float x2;                                           // Right edge of layer
+    protected float y2;                                           // Top edge of layer
+    protected int rows;                                           // Number of tile rows
+    protected int columns;                                        // Number of tile columns
+    protected float width;                                        // Width of layer
+    protected float height;                                       // Height of layer
+    protected float tWidth;                                       // Tile Width
+    protected float tHeight;                                      // Tile Height
 	//==================
 	// INITIALIZE
 	//==================
@@ -60,6 +60,7 @@ public class Layer
 	/// </summary>
     public void drawLayer()
     {
+        // Iterate over the tiles
         foreach (Tile t in tiles)
         {
             // include tile in scene
