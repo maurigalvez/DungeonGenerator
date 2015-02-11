@@ -29,9 +29,9 @@ public class MiscLayer : Layer
    public float radius;                                 // Radius used for circle
    public sortPlacement distribution;
    //=================
-   // GENERATE
+   // GENERATE2D
    //=================
-   public override void generate()
+   public override void generate2D()
    {
       layer = new GameObject(layerName);       
       this.layerID = id + 1;

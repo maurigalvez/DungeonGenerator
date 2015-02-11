@@ -1,0 +1,11 @@
+C:\Users\GALVMAUR\Documents\DungeonGenerator\Temp\UnityVS_bin\Debug\Assembly-CSharp.dll
+C:\Users\GALVMAUR\Documents\DungeonGenerator\Temp\UnityVS_bin\Debug\Assembly-CSharp.pdb
+C:\Users\GALVMAUR\Documents\DungeonGenerator\Temp\UnityVS_bin\Debug\UnityEditor.dll
+C:\Users\GALVMAUR\Documents\DungeonGenerator\Temp\UnityVS_bin\Debug\UnityEngine.dll
+C:\Users\GALVMAUR\Documents\DungeonGenerator\Temp\UnityVS_bin\Debug\UnityEngine.UI.dll
+C:\Users\GALVMAUR\Documents\DungeonGenerator\Temp\UnityVS_bin\Debug\UnityEngine.xml
+C:\Users\GALVMAUR\Documents\DungeonGenerator\Temp\UnityVS_bin\Debug\UnityEditor.xml
+C:\Users\GALVMAUR\Documents\DungeonGenerator\Temp\UnityVS_bin\Debug\UnityEngine.UI.xml
+C:\Users\GALVMAUR\Documents\DungeonGenerator\obj\Debug\UnityVS.DungeonGenerator.CSharp.csprojResolveAssemblyReference.cache
+C:\Users\GALVMAUR\Documents\DungeonGenerator\obj\Debug\Assembly-CSharp.dll
+C:\Users\GALVMAUR\Documents\DungeonGenerator\obj\Debug\Assembly-CSharp.pdb

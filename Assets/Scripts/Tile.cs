@@ -11,14 +11,15 @@ public class Tile
 	//================
 	private float x;								// position X
 	private float y;								// position Y
+   private float z;                       // position Z (used only if it's a 3DTile)
    private int id;                        // Id of layer that tile belongs to
 	private GameObject sprite;					// prefab of sprite
 	private GameObject tileObject;		   // instance of tile gameObject
 	//===============
-	// CONSTRUCTOR
+	// 2D CONSTRUCTOR
 	//===============
 	/// <summary>
-	/// Initializes <see cref="Tile"/> instance with given parameters.
+	/// Initializes a 2D <see cref="Tile"/> instance with given parameters.
 	/// </summary>
 	/// <param name="_x">X position of Tile</param>
 	/// <param name="_y">Y position of Tile</param>
@@ -32,18 +33,44 @@ public class Tile
 		// assign layerId to sprite
 		this.id = _layerID;
 	}
+   //===============
+   // 3D CONSTRUCTOR
+   //===============
+   /// <summary>
+   /// Initializes a 2D <see cref="Tile"/> instance with given parameters.
+   /// </summary>
+   /// <param name="_x">X position of Tile</param>
+   /// <param name="_y">Y position of Tile</param>
+   /// <param name="_z">Z position of Tile</param>
+   /// <param name="_TileObj">Tile Game Object</param>
+   public Tile(float _x, float _y, float _z, GameObject _tileObj)
+   {
+      this.x = _x;
+      this.y = _y;
+      this.z = _z;
+      this.sprite = _tileObj;
+   }
 	//===============
-	// GENERATE
+	// GENERATE2D
 	//===============
 	/// <summary>
-	/// Generates game object of this Tile.
+	/// Generates game object of this Tile on 2D
 	/// </summary>
-	public void generate()
+	public void generate2D()
 	{
 		tileObject = (GameObject)GameObject.Instantiate(sprite,new Vector3(x,y,0),Quaternion.identity);
-        tileObject.GetComponent<SpriteRenderer>().sortingOrder = this.id;
+      tileObject.GetComponent<SpriteRenderer>().sortingOrder = this.id;
 	}
-	//===============
+   //==============
+   // GENERATE3D
+	//==============
+   /// <summary>
+   /// Generates game object of this Tile on 3D
+   /// </summary>
+   public void generate3D()   
+   {
+      tileObject = (GameObject)GameObject.Instantiate(sprite, new Vector3(x, y,z), Quaternion.identity);
+   }
 	// SET PARENT
 	//===============
 	/// <summary>

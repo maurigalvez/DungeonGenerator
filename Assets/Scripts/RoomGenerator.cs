@@ -48,20 +48,17 @@ public class RoomGenerator : MonoBehaviour
       // Generate x and y
       float x = -TileWidth * rows * 0.5f;
       float y = -TileHeight * columns * 0.5f;
-      Debug.Log(x + "   " + y);
+      //Debug.Log(x + "   " + y);
       // Initialize floor
-      floor.init(x, y, columns, rows, TileWidth,TileHeight);
-      floor.drawLayer();
+      floor.init(x, y, columns, rows, TileWidth,TileHeight,true);
       floor.setParent(room.transform);
       // Initialize walls
-      wall.init(x, y, columns, rows, TileWidth, TileHeight);
-      wall.drawLayer();
+      wall.init(x, y, columns, rows, TileWidth, TileHeight,true);   
       wall.setParent(room.transform);  
       // Initialize other layers
       foreach(MiscLayer ml in others)
       {
-          ml.init(x, y, columns, rows, TileWidth, TileHeight);
-          ml.drawLayer();
+          ml.init(x, y, columns, rows, TileWidth, TileHeight,false);     
           ml.setParent(room.transform); 
       }
       // Translate room

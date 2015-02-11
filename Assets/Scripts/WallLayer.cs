@@ -18,12 +18,12 @@ public class WallLayer : Layer
     public GameObject BLCorner;                     // Bottom-Left Corner
     public GameObject BRCorner;                     // Bottom-Right
     //===============
-    // GENERATE
+    // GENERATE 2D
     //===============
     /// <summary>
     /// Generates walls tiles and adds them to tiles list.
     /// </summary>
-	public override void generate()
+	public override void generate2D()
     {
         //-----------------
         // CHECK IF GAME OBJECTS ARE NOT SET
@@ -88,4 +88,74 @@ public class WallLayer : Layer
         }
        //Debug.Log(tiles.Count);
     }
+    //===============
+    // GENERATE 3D
+    //===============
+    /// <summary>
+    /// Generates walls tiles and adds them to tiles list.
+    /// </summary>
+    public override void generate3D()
+    {
+       //-----------------
+       // CHECK IF GAME OBJECTS ARE NOT SET
+       //----------------
+       if (!leftWall || !rightWall || !bottomWall || !topWall || !TLCorner || !TRCorner || !BLCorner || !BRCorner)
+       {
+          Debug.LogError("GameObject for one of the walls have not been set! Wall will not be drawn until all of them are set");
+          return;
+       }
+       layer = new GameObject("Walls");
+       // Set Position on Y
+       float height = tHeight * 1.5f;
+       //=================
+       // TOP AND BOTTOM
+       //=================       
+       float currentX = this.x;
+       while (currentX <= x2)
+       {
+          //---------------
+          // Top and bottomleft corner
+          //---------------
+          if (currentX == this.x)
+          {
+             // top left corner
+             tiles.Add(new Tile(currentX, height , y2, TLCorner));
+             // bottom left corner
+             tiles.Add(new Tile(currentX, height, this.y, BLCorner));
+          }
+          //---------------
+          // Top and bottomright corner
+          //---------------
+          if (currentX == x2)
+          {
+             // top left corner
+             tiles.Add(new Tile(currentX, height,y2, TRCorner));
+             // bottom left corner
+             tiles.Add(new Tile(currentX, height,this.y, BRCorner));
+          }
+          else
+          {
+             // add tile at top 
+             tiles.Add(new Tile(currentX, height, this.y, bottomWall));
+             // add tile at bottom
+             tiles.Add(new Tile(currentX, height,y2, topWall));
+          }
+          // increase currentX
+          currentX += this.tWidth;
+       }
+       //==================
+       // LEFT AND RIGHT
+       //==================
+       float currentY = this.y + this.tHeight;
+       while (currentY <= y2 - this.tHeight)
+       {
+          // add tile on left
+          tiles.Add(new Tile(this.x, height, currentY, leftWall));
+          // add tile on right
+          tiles.Add(new Tile(x2, height, currentY, rightWall));
+          // increase currentY
+          currentY += this.tHeight;
+       }
+    }
+
 }
