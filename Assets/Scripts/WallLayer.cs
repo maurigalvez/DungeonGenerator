@@ -106,7 +106,7 @@ public class WallLayer : Layer
        }
        layer = new GameObject("Walls");
        // Set Position on Y
-       float height = tHeight * 1.5f;
+       float height = tHeight * 0.75f;
        //=================
        // TOP AND BOTTOM
        //=================       

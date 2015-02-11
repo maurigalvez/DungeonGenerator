@@ -59,7 +59,11 @@ public class Tile
 	public void generate2D()
 	{
 		tileObject = (GameObject)GameObject.Instantiate(sprite,new Vector3(x,y,0),Quaternion.identity);
-      tileObject.GetComponent<SpriteRenderer>().sortingOrder = this.id;
+      SpriteRenderer rend = tileObject.GetComponent<SpriteRenderer>();
+      if (rend)
+         rend.sortingOrder = this.id;
+      else
+         Debug.LogError("Given Sprite object does not contain a Sprite Renderer Component!!");
 	}
    //==============
    // GENERATE3D

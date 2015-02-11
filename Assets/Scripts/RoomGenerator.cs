@@ -19,6 +19,7 @@ public class RoomGenerator : MonoBehaviour
    //===============
    // LAYERS
    //===============
+   public bool switch3d;                    // True if 3D feature is on, otherwise is off.       
    public FloorLayer floor;                 // Floor Layer
    public WallLayer wall;                   // Wall Layer
    public List<MiscLayer> others;           // Other Layers
@@ -50,15 +51,15 @@ public class RoomGenerator : MonoBehaviour
       float y = -TileHeight * columns * 0.5f;
       //Debug.Log(x + "   " + y);
       // Initialize floor
-      floor.init(x, y, columns, rows, TileWidth,TileHeight,true);
+      floor.init(x, y, columns, rows, TileWidth,TileHeight,switch3d);
       floor.setParent(room.transform);
       // Initialize walls
-      wall.init(x, y, columns, rows, TileWidth, TileHeight,true);   
+      wall.init(x, y, columns, rows, TileWidth, TileHeight,switch3d);   
       wall.setParent(room.transform);  
       // Initialize other layers
       foreach(MiscLayer ml in others)
       {
-          ml.init(x, y, columns, rows, TileWidth, TileHeight,false);     
+          ml.init(x, y, columns, rows, TileWidth, TileHeight, switch3d);     
           ml.setParent(room.transform); 
       }
       // Translate room

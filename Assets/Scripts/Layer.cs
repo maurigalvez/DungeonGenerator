@@ -22,18 +22,18 @@ public class Layer
     protected float height;                                       // Height of layer
     protected float tWidth;                                       // Tile Width
     protected float tHeight;                                      // Tile Height
-	//================== 
-	// INITIALIZE
-	//==================
-	/// <summary>
-	/// Initializes Layer with the specified _x, _y, _rows and _col.
-	/// </summary>
-	/// <param name="_x">X position of Layer</param>
-	/// <param name="_y">Y position of Layer</param>
-	/// <param name="_rows">Number of layer rows</param>
-	/// <param name="_col">Number of layer columns</param>
-    /// /// <param name="_tW">Width of tile</param>
-    /// /// <param name="_tH">Height of tiles</param>
+   //================== 
+   // INITIALIZE
+   //==================
+   /// <summary>
+   /// Initializes Layer with the specified _x, _y, _rows and _col.
+   /// </summary>
+   /// <param name="_x">X position of Layer</param>
+   /// <param name="_y">Y position of Layer</param>
+   /// <param name="_rows">Number of layer rows</param>
+   /// <param name="_col">Number of layer columns</param>
+   /// <param name="_tW">Width of tile</param>
+   ///  <param name="_tH">Height of tiles</param>
 	public void init(float _x, float _y, int _rows, int _col, float _tW, float _tH, bool _is3D)
 	{
 		  this.x = _x;
