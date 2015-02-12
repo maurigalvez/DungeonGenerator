@@ -191,7 +191,7 @@ public class MiscLayer : Layer
       float cX = this.x + tWidth * 5f;
       float lastY = this.y2 - tHeight * 5f;
       float cY = this.y + tHeight *5f;
-      //-------
+      //--------
       // TOP AND BOTTOM
       //--------
       while(cX < lastX)

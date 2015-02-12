@@ -7,7 +7,7 @@ using System.Collections;
 public class Tile
 {
 	//================
-	// VARIABLES
+	// TILE PROPERTIES
 	//================
 	private float x;								// position X
 	private float y;								// position Y
