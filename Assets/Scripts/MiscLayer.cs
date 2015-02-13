@@ -28,8 +28,8 @@ public class MiscLayer : Layer
    public GameObject prefab;	                          // Prefab for tiles of this layer
    public float radius;                                 // Radius used for circle
    public float gap;                                    // Space between objects
-   public sortPlacement distribution;   
-   private bool is3D;
+   public sortPlacement distribution;                   // Distribution for elements in this layer
+   private bool is3D;                                   // True if it's a 3D layer, false otherwise
    private float oHeight;
    //=================
    // GENERATE2D

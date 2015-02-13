@@ -17,12 +17,14 @@ public class WallLayer : Layer
     public GameObject TRCorner;                     // Top-Right Corner
     public GameObject BLCorner;                     // Bottom-Left Corner
     public GameObject BRCorner;                     // Bottom-Right
-    // DOOR SPRITE
-    /*public GameObject Door;                         // Door to be placed on top of the walls
+    //=================
+    // DOOR SPRITES
+    //=================
+    public GameObject Door;                         // Door to be placed on top of the walls
     public bool doorLeft;                           // If true a door will be placed on left wall
     public bool doorRight;                          // If true a door will be placed on right wall
     public bool doorTop;                            // If true a door will be placed on top wall
-    public bool doorBottom;                         // If true a door will be placed on bottom wall*/
+    public bool doorBottom;                         // If true a door will be placed on bottom wall
     //===============
     // GENERATE 2D
     //===============

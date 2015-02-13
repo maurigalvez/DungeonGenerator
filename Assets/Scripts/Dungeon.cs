@@ -9,7 +9,6 @@ public class Dungeon : MonoBehaviour
    //==================
    public bool switch3D;                    // True if 3D is on, otherwise 2D is on  
    public List<Room> rooms;                 // List of rooms of the dungeon
-   public bool buildUp;                     // True if dungeon is to being built up, otherwise if will be builtDown
    private Vector3 dungeonPosition;         // Position of dungeon in game world
    //==================
    // ROOMS PROPERTIES
@@ -18,6 +17,8 @@ public class Dungeon : MonoBehaviour
    public int RoomColumns;                  // Number of columns
    public float TileWidth;                  // Width of Tile
    public float TileHeight;                 // Height of Tile
+   public float gapH;
+   public float gapV;
    private float RoomWidth;                 // Width of room
    private float RoomHeight;                // Height of room
 	//==================
@@ -40,7 +41,7 @@ public class Dungeon : MonoBehaviour
          return;
       }     
       // Calculate Room Width and Height
-      RoomWidth = RoomRows * TileWidth;
+      RoomWidth = RoomRows * (TileWidth);
       RoomHeight = RoomColumns * TileHeight;
       // Generate dungeon
       generateDungeon();
@@ -90,35 +91,46 @@ public class Dungeon : MonoBehaviour
             prevPosition = prevGenerated.transform.position;
             //----------------------------
             // This is not the first room
-            //----------------------------
-            int direction = Random.Range(1, 4);
-            switch(direction)
+            //----------------------------         
+            // Obtain position of previous room
+            roomPos = prevPosition;
+            //-----------
+            // Obtain a position where two rooms do not overlap
+            //-----------
+            while (checkOverlap(roomPos))
             {
-               // N
-               case 1:
-                  // Obtain position of previous room
-                  roomPos = prevGenerated.transform.position;
-                  roomPos += new Vector3(0, RoomHeight + TileHeight, 0);
-                  break;
-               // S
-               case 2:
-                  // Obtain position of previous room
-                  roomPos = prevGenerated.transform.position;
-                  roomPos -= new Vector3(0, RoomHeight + TileHeight, 0);
-                  break;
-               // E
-               case 3:
-                  // Obtain position of previous room
-                  roomPos = prevGenerated.transform.position;
-                  roomPos += new Vector3(RoomWidth, 0, 0);
-                  break;
-               // W
-               case 4:
-                  // Obtain position of previous room
-                  roomPos = prevGenerated.transform.position;
-                  roomPos -= new Vector3(RoomWidth,0, 0);
-                  break;
-            }            
+               roomPos = prevPosition;
+               // obtain direction
+               int direction = Random.Range(1, 4);    
+               switch (direction)
+               {
+                  // N
+                  case 1:
+                     // check if it's not in 3D
+                     if (!switch3D)
+                        roomPos += new Vector3(0, RoomHeight + gapV, 0);
+                     else
+                        roomPos += new Vector3(0, 0, RoomHeight + gapV);
+                     break;
+                  // S
+                  case 2:
+                     // check if it's not in 3D
+                     if (!switch3D)
+                        roomPos -= new Vector3(0, RoomHeight + gapV, 0);
+                     else
+                        roomPos += new Vector3(0, 0, RoomHeight + gapV);
+                     break;
+                  // E
+                  case 3:
+                     roomPos += new Vector3(RoomWidth + gapH , 0, 0);
+                     break;
+                  // W
+                  case 4:
+                     roomPos -= new Vector3(RoomWidth  + gapH, 0, 0);
+                     break;
+               }
+            } // check overlap
+            // Assign new position to room's game object
             cRoom.getInstance().transform.position = roomPos;
             // Initialize and set parent     
             cRoom.setParent(this.transform);
@@ -129,5 +141,23 @@ public class Dungeon : MonoBehaviour
          roomsToGenerate.RemoveAt(current);
       }
    } 
+   //===============
+   // CHECK OVERLAP
+   //===============
+   /// <summary>
+   /// Checks if given position overlaps with the position of other rooms
+   /// </summary>
+   /// <param name="point1">Position to check overlap.</param>
+   /// <returns>Returns true if position overlaps with any of the rooms</returns>
+   public bool checkOverlap(Vector3 point1)
+   { 
+      // Iterate over rooms
+      foreach(Room r in rooms)
+      { 
+          if (Vector3.Distance(point1, r.getInstance().transform.position) <= 0)
+            return true;
+      }
+      return false;
+   }
 
 }
