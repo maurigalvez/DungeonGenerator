@@ -19,12 +19,13 @@ public class WallLayer : Layer
     public GameObject BRCorner;                     // Bottom-Right
     //=================
     // DOOR SPRITES
-    //=================
+    //=================   
     public GameObject Door;                         // Door to be placed on top of the walls
-    public bool doorLeft;                           // If true a door will be placed on left wall
-    public bool doorRight;                          // If true a door will be placed on right wall
-    public bool doorTop;                            // If true a door will be placed on top wall
-    public bool doorBottom;                         // If true a door will be placed on bottom wall
+    [System.NonSerialized]
+    public Tile doorLeft;                          // If true a door will be placed on left wall
+    public Tile doorRight;                         // If true a door will be placed on right wall
+    public Tile doorTop;                           // If true a door will be placed on top wall
+    public Tile doorBottom;                        // If true a door will be placed on bottom wall
     //===============
     // GENERATE 2D
     //===============
@@ -49,55 +50,84 @@ public class WallLayer : Layer
         // TOP AND BOTTOM
         //=================       
         float currentX = this.x;
+        int colsAdded = 0;
         while (currentX <= x2)
         {
-            //---------------
-            // Top and bottomleft corner
-            //---------------
-            if (currentX == this.x)
-            {
-                // top left corner
-                tiles.Add(new Tile(currentX, y2, TLCorner, this.layerID));
-                // bottom left corner
-                tiles.Add(new Tile(currentX, this.y, BLCorner, this.layerID));
-            }
-            //---------------
-            // Top and bottomright corner
-            //---------------
-            if (currentX == x2)
-            {
-                // top left corner
-                tiles.Add(new Tile(currentX, y2, TRCorner, this.layerID));
-                // bottom left corner
-                tiles.Add(new Tile(currentX, this.y, BRCorner, this.layerID));
-            }
-            else
-            {
-                // add tile at top 
-                tiles.Add(new Tile(currentX, this.y, bottomWall, this.layerID));
-                // add tile at bottom
-                tiles.Add(new Tile(currentX, y2, topWall, this.layerID));
-            }
+           
+           if (colsAdded == columns / 2)
+           {
+              doorTop = new Tile(currentX, this.y, bottomWall, this.layerID);
+              doorBottom = new Tile(currentX, this.y2, topWall, this.layerID);
+              // add door at top
+              tiles.Add(doorTop);
+              // add door at bottom
+              tiles.Add(doorBottom);
+              colsAdded++;              
+           }
+           else
+           {
+              //---------------
+              // Top and bottomleft corner
+              //---------------
+              if (currentX == this.x)
+              {
+                 // top left corner
+                 tiles.Add(new Tile(currentX, y2, TLCorner, this.layerID));
+                 // bottom left corner
+                 tiles.Add(new Tile(currentX, this.y, BLCorner, this.layerID));
+              }
+              //---------------
+              // Top and bottomright corner
+              //---------------
+              else if (currentX == x2)
+              {
+                 // top left corner
+                 tiles.Add(new Tile(currentX, y2, TRCorner, this.layerID));
+                 // bottom left corner
+                 tiles.Add(new Tile(currentX, this.y, BRCorner, this.layerID));
+              }
+              else
+              {
+                 // add tile at top 
+                 tiles.Add(new Tile(currentX, this.y, bottomWall, this.layerID));
+                 // add tile at bottom
+                 tiles.Add(new Tile(currentX, y2, topWall, this.layerID));
+              }
+           }
             // increase currentX
             currentX += this.tWidth;
+            // increase cols Added
+            colsAdded++;
         }
         //==================
         // LEFT AND RIGHT
         //==================
         float currentY = this.y + this.tHeight;
+        int rowsAdded = 0;
         while (currentY <= y2 - this.tHeight)
         {
-            // add tile on left
-            tiles.Add(new Tile(this.x, currentY, leftWall, this.layerID));
-            // add tile on right
-            tiles.Add(new Tile(x2, currentY, rightWall, this.layerID));
+           if (rowsAdded == rows / 2)
+           {
+              doorLeft = new Tile(this.x, currentY, leftWall, this.layerID);
+              doorRight = new Tile(this.x2, currentY, rightWall, this.layerID);
+              // add left door
+              tiles.Add(doorLeft);
+              // add right door
+              tiles.Add(doorRight);
+           }
+           else
+           {
+              // add tile on left
+              tiles.Add(new Tile(this.x, currentY, leftWall, this.layerID));
+              // add tile on right
+              tiles.Add(new Tile(x2, currentY, rightWall, this.layerID));
+           }
             // increase currentY
             currentY += this.tHeight;
+           // increase rows Added
+            rowsAdded++;
         }
-        //==================
-        // PLACE DOORS
-        //==================
-       //Debug.Log(tiles.Count);
+        
     }
     //===============
     // GENERATE 3D
@@ -168,5 +198,4 @@ public class WallLayer : Layer
           currentY += this.tHeight;
        }
     }
-
 }

@@ -15,6 +15,8 @@ public class Tile
    private int id;                        // Id of layer that tile belongs to
 	private GameObject sprite;					// prefab of sprite
 	private GameObject tileObject;		   // instance of tile gameObject
+   private SpriteRenderer renderer;
+   private Transform tileTransform;
 	//===============
 	// 2D CONSTRUCTOR
 	//===============
@@ -59,9 +61,10 @@ public class Tile
 	public void generate2D()
 	{
 		tileObject = (GameObject)GameObject.Instantiate(sprite,new Vector3(x,y,0),Quaternion.identity);
-      SpriteRenderer rend = tileObject.GetComponent<SpriteRenderer>();
-      if (rend)
-         rend.sortingOrder = this.id;
+      tileTransform = tileObject.transform;
+      renderer = tileObject.GetComponent<SpriteRenderer>();
+      if (renderer)
+         renderer.sortingOrder = this.id;
       else
          Debug.LogError("Given Sprite object does not contain a Sprite Renderer Component!!");
 	}
@@ -74,7 +77,34 @@ public class Tile
    public void generate3D()   
    {
       tileObject = (GameObject)GameObject.Instantiate(sprite, new Vector3(x, y,z), Quaternion.identity);
+      tileTransform = tileObject.transform;
    }
+   public void change2DSprite(GameObject _newSprite)
+   {
+      renderer.sprite = _newSprite.GetComponent<SpriteRenderer>().sprite;
+   }
+   //==============
+   // FLIP HORIZONTAL
+   //==============
+   public void flipHorizontal()
+   {
+      tileTransform.localScale = new Vector3(-tileTransform.localScale.x, tileTransform.localScale.y, tileTransform.localScale.z) ;
+   }
+   //==============
+   // FLIP VERTICAL
+   //==============
+   public void flipVertical()
+   {
+      tileTransform.localScale = new Vector3(tileTransform.localScale.x, -tileTransform.localScale.y, tileTransform.localScale.z);
+   }
+   //==============
+   // FLIP ROTATE 
+   //==============
+   public void rotate(Vector3 _rotation)
+   {
+      tileTransform.rotation = Quaternion.Euler(_rotation);
+   }
+   //==============
 	// SET PARENT
 	//===============
 	/// <summary>
@@ -85,5 +115,12 @@ public class Tile
 	{
 		tileObject.transform.parent = _p;
 	}
+   //===============
+   // GET INSTANCE
+   //================
+   public GameObject getInstance()
+   {
+      return this.tileObject;
+   }
 }
 

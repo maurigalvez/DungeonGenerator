@@ -7,11 +7,19 @@ using System.Collections.Generic;
 [System.Serializable]
 public class Room
 {
+   public enum eRoomDirection
+   {
+      North,
+      South,
+      West,
+      East
+   }
    //==============
    // ROOM PROPERTIES
    //==============    
    public GameObject customRoom;             // Custom Room to be placed instead of this one
    public int roomId;                        // Number of room 
+   public eRoomDirection direction;          // Direction of this room
    private int rows;                         // Number of rows
    private int columns;                      // Number of columns
    private float TileWidth;                  // Tile width
@@ -71,9 +79,10 @@ public class Room
       // Initialize floor
       floor.init(x, y, columns, rows, TileWidth,TileHeight,switch3d);
       floor.setParent(room.transform);
+    
       // Initialize walls
-      wall.init(x, y, columns, rows, TileWidth, TileHeight,switch3d);   
-      wall.setParent(room.transform);  
+      wall.init(x, y, columns, rows, TileWidth, TileHeight,switch3d);
+      wall.setParent(room.transform);
       // Initialize other layers
       foreach(MiscLayer ml in others)
       {
@@ -96,9 +105,84 @@ public class Room
    //================
    // CONNECT
    //================
-   public void connect()
+   public void connect(Room otherRoom)
    {
+      IsDoor door1 = null;
+      IsDoor door2 = null;
+      switch(otherRoom.direction)
+      {
+         case eRoomDirection.North:
+            // Check if it's in 2D
+            if(!this.switch3d)
+            {
+               this.wall.doorTop.change2DSprite(wall.Door);   
+               otherRoom.wall.doorBottom.change2DSprite(otherRoom.wall.Door);              
+            }
 
+            // Obtain door components           
+            door1 = this.wall.doorTop.getInstance().GetComponent<IsDoor>();
+            door2 = otherRoom.wall.doorBottom.getInstance().GetComponent<IsDoor>();    
+         break;
+
+         case eRoomDirection.East:
+            // Check if it's in 2D
+            if (!this.switch3d)
+            {
+               this.wall.doorRight.change2DSprite(wall.Door);
+               this.wall.doorRight.rotate(new Vector3(0, 0, -90));
+               otherRoom.wall.doorLeft.change2DSprite(otherRoom.wall.Door);
+               otherRoom.wall.doorLeft.rotate(new Vector3(0, 0, 90));
+            }
+
+            // Obtain door components           
+            door1 = this.wall.doorRight.getInstance().GetComponent<IsDoor>();
+            door2 = otherRoom.wall.doorLeft.getInstance().GetComponent<IsDoor>();  
+         break;
+
+         case eRoomDirection.West:
+            // Check if it's in 2D
+            if (!this.switch3d)
+            {
+               this.wall.doorLeft.change2DSprite(wall.Door);
+               this.wall.doorLeft.rotate(new Vector3(0, 0, 90));
+               otherRoom.wall.doorRight.change2DSprite(otherRoom.wall.Door);
+               otherRoom.wall.doorRight.rotate(new Vector3(0, 0, -90));
+            }
+
+            // Obtain door components           
+            door1 = this.wall.doorLeft.getInstance().GetComponent<IsDoor>();
+            door2 = otherRoom.wall.doorRight.getInstance().GetComponent<IsDoor>();  
+         break;
+
+         case eRoomDirection.South:
+            // Check if it's in 2D
+            if (!this.switch3d)
+            {
+               this.wall.doorBottom.change2DSprite(wall.Door);           
+               otherRoom.wall.doorTop.change2DSprite(otherRoom.wall.Door);
+            }
+
+            // Obtain door components           
+            door1 = this.wall.doorBottom.getInstance().GetComponent<IsDoor>();
+            door2 = otherRoom.wall.doorTop.getInstance().GetComponent<IsDoor>(); 
+         break;
+      }// switch
+      //--------
+      // Assign doors properties
+      //---------
+      // check that both doors are not null
+      if (door1!= null && door2!= null)
+      {
+         // Assign door destinations
+         door1.destination = otherRoom.wall.doorBottom.getInstance();
+         door2.destination = wall.doorTop.getInstance();
+         // Assign destination screens
+         door1.destScreen = otherRoom.getInstance().transform;
+         door2.destScreen = this.room.transform;
+      }
+      else      
+         Debug.LogError("Door GameObject doesn't have an IsDoor Component attached.");
+      
    }
   
    //================

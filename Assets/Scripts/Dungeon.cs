@@ -17,8 +17,9 @@ public class Dungeon : MonoBehaviour
    public int RoomColumns;                  // Number of columns
    public float TileWidth;                  // Width of Tile
    public float TileHeight;                 // Height of Tile
-   public float gapH;
-   public float gapV;
+   public float gapH;                       // Horizontal Gap between rooms
+   public float gapV;                       // Vertical Gap between rooms
+   public float doorOffset;                 // Offset between player and destination
    private float RoomWidth;                 // Width of room
    private float RoomHeight;                // Height of room
 	//==================
@@ -67,6 +68,7 @@ public class Dungeon : MonoBehaviour
       List<Room> roomsToGenerate = new List<Room>(rooms);
       // Room previously generated
       GameObject prevGenerated = null;
+      Room prevRoom = null;
       int roomsGenerated = 0;
       // Continue while there are rrooms to generate
       while(roomsToGenerate.Count > 0)
@@ -84,6 +86,7 @@ public class Dungeon : MonoBehaviour
             cRoom.setParent(this.transform);
             // Set this room as prevGenerated
             prevGenerated = cRoom.getInstance();
+            prevRoom = cRoom;
             roomsGenerated++;
          }
          else
@@ -111,7 +114,10 @@ public class Dungeon : MonoBehaviour
                         roomPos += new Vector3(0, RoomHeight + gapV, 0);
                      else
                         roomPos += new Vector3(0, 0, RoomHeight + gapV);
-                     break;
+
+                     // assign direction
+                     cRoom.direction = Room.eRoomDirection.South;
+                     break;              
                   // S
                   case 2:
                      // check if it's not in 3D
@@ -119,23 +125,33 @@ public class Dungeon : MonoBehaviour
                         roomPos -= new Vector3(0, RoomHeight + gapV, 0);
                      else
                         roomPos += new Vector3(0, 0, RoomHeight + gapV);
+
+                     // assign direction
+                     cRoom.direction = Room.eRoomDirection.North;
                      break;
                   // E
                   case 3:
                      roomPos += new Vector3(RoomWidth + gapH , 0, 0);
+                     // assign direction
+                     cRoom.direction = Room.eRoomDirection.East;
                      break;
                   // W
                   case 4:
                      roomPos -= new Vector3(RoomWidth  + gapH, 0, 0);
+                     // assign direction
+                     cRoom.direction = Room.eRoomDirection.West;
                      break;
                }
             } // check overlap
             // Assign new position to room's game object
             cRoom.getInstance().transform.position = roomPos;
+            // connect with previous room
+            prevRoom.connect(cRoom);
             // Initialize and set parent     
             cRoom.setParent(this.transform);
             // Set this room as prevGenerated
             prevGenerated = cRoom.getInstance();
+            prevRoom = cRoom;
          }
          // Remove room
          roomsToGenerate.RemoveAt(current);
